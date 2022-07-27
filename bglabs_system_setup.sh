@@ -105,9 +105,3 @@ TERM=vt100 whiptail --title "BGlabs install tools"\
 
 
 exit 1
-
--- 
-Koen Hufkens, Ph.D.
-ETH ZurichComputational Ecosystem Sciences Lab
-
-co-founder BlueGreen Labsbluegreenlabs.org @koen_hufkens
