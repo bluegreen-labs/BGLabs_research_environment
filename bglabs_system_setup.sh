@@ -18,55 +18,57 @@
 # determine Ubuntu release
 
 #-------- Setup and system specific parameters --------
-
 release=`lsb_release -cs`
 
-if (TERM=vt100 whiptail --title "BGLab system setup" \
- --yesno "This installs research software on your computer.\
-  Do you want to continue" 8 70); then
+if (TERM=vt100 whiptail --title "BGLab system setup"\
+ --yesno "This installs research software on your computer. Do you want to continue" 8 70); then
   echo "All done"
 else
   exit 0
 fi
 
+# update location info (units, date formats)
+sudo update-locale LC_ALL=en_IE.UTF-8 >/dev/null 2>&1
 
-if (TERM=vt100 whiptail --title "BGLab system setup" \
- --yesno "What system are you running"\
- --yes-button "Laptop"\
- --no-button "Workstation" 8 70); then
-  system="laptop"
-else
-  system="workstation"
-fi
+#-------- System utilities --------
 
-whiptail --msgbox --title "Intro to Whiptail" "$system" 25 80
+TERM=vt100 whiptail --title "BGlabs install tools" --infobox "setting up system utilities and libraries" 8 80
 
-exit 0
+# Install general compilation and system utilities
+sudo apt install python3-pip git -y >/dev/null 2>&1
+sudo apt install cmake gfortran libclang-dev -y >/dev/null 2>&1
+
+# R devtools requirements
+sudo apt install libfontconfig1-dev ibharfbuzz-dev libfribidi-dev libsodium-dev -y >/dev/null 2>&1
+
+# authentication libraries and unit conversions
+sudo apt install libsodium-dev libudunits2-dev -y >/dev/null 2>&1
+
+# mommentuHMM dependencies
+sudo apt install protobuf-compiler libprotobuf-dev libjq-dev -y >/dev/null 2>&1
 
 #-------- Internet utilities --------
 
-TERM=vt100 whiptail --title "BGlabs install tools"\
- --infobox "setting up internet utilities" 8 80
+TERM=vt100 whiptail --title "BGlabs install tools" --infobox "setting up internet utilities" 8 80
 
 # Install general tools for internet sleughting
-sudo apt install wget curl -y
+sudo apt install wget curl -y >/dev/null 2>&1
 
 #-------- GDAL and geospatial software --------
 
-TERM=vt100 whiptail --title "BGlabs install tools"\
- --infobox "setting up GDAL" 8 80
+TERM=vt100 whiptail --title "BGlabs install tools" --infobox "setting up GDAL" 8 80
 
 # Install GDAL and GDAL development libraries
 # the latest versions can be fetched from the ppa
 # this will not be required if running Ubuntu 22.04
 # as this includes a recent version of GDAL etc.
 # Test for the release date
-if ( ${release} == "focal"); then
-  sudo add-apt-repository ppa:ubuntugis/ppa -y
+if [[ ${release} == "focal" ]]; then
+  sudo add-apt-repository ppa:ubuntugis/ppa -y >/dev/null 2>&1
 fi
 
-sudo apt-get update
-sudo apt-get install gdal-bin libgdal-dev qgis -y
+sudo apt-get update >/dev/null 2>&1
+sudo apt-get install gdal-bin libgdal-dev qgis -y >/dev/null 2>&1
 
 #-------- R & statistical software --------
 
@@ -76,32 +78,61 @@ TERM=vt100 whiptail --title "BGlabs install tools" --infobox "setting up R" 8 80
 # from https://cloud.r-project.org/bin/linux/ubuntu/
 
 # install two helper packages we need
-sudo apt install --no-install-recommends software-properties-common dirmngr -y
+sudo apt install --no-install-recommends software-properties-common\
+ dirmngr -y >/dev/null 2>&1
 
 # add the signing key (by Michael Rutter) for these repos
 # To verify key, run gpg --show-keys /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc 
 # Fingerprint: E298A3A825C0D65DFD57CBB651716619E084DAB9
 wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc |
- sudo tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
+ sudo tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc >/dev/null 2>&1
 
 # add the R 4.0 repo from CRAN -- adjust 'focal' to 'groovy'
 # or 'bionic' as needed
-sudo add-apt-repository\
- "deb https://cloud.r-project.org/bin/linux/ubuntu ${release}-cran40/"
+sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu \
+ $(lsb_release -cs)-cran40/" >/dev/null 2>&1
+
+# update repo
+sudo apt-get update >/dev/null 2>&1
 
 # Install base R
-sudo apt install --no-install-recommends r-base -y
+sudo apt install --no-install-recommends r-base -y >/dev/null 2>&1
 
-#-------- Python etc --------
 
-TERM=vt100 whiptail --title "BGlabs install tools"\
- --infobox "setting up R" 8 80
+#-------- R & statistical software --------
 
+TERM=vt100 whiptail --title "BGlabs install tools" --infobox "setting up RStudio" 8 80
+
+#if [[ ${release} == "focal" ]]; then
+# wget https://download1.rstudio.org/desktop/bionic/amd64/rstudio-2022.07.1-554-amd64.deb  >/dev/null 2>&1
+#else
+# wget https://download1.rstudio.org/desktop/jammy/amd64/rstudio-2022.07.1-554-amd64.deb  >/dev/null 2>&1
+#fi
+
+#sudo dpkg -i rstudio-2022.07.1-554-amd64.deb >/dev/null 2>&1
+#rm rstudio-2022.07.1-554-amd64.deb >/dev/null 2>&1
+
+#-------- Python ML etc --------
+
+TERM=vt100 whiptail --title "BGlabs install tools" --infobox "setting up python & machine learning tooling" 8 80
+
+# TODO probably safe to install numpy and scipy from the default repo
 
 #-------- Zotero reference manager --------
 
-TERM=vt100 whiptail --title "BGlabs install tools"\
- --infobox "setting up R" 8 80
+TERM=vt100 whiptail --title "BGlabs install tools" --infobox "setting up the Zotero reference manager" 8 80
+sleep 4
 
+#-------- Cleanup --------
 
-exit 1
+TERM=vt100 whiptail --title "BGlabs install tools" --infobox "cleaning up" 8 80
+sudo apt autoremove -y >/dev/null 2>&1
+
+#-------- Reboot --------
+
+if (TERM=vt100 whiptail --title "BGLab system setup" \
+ --yesno "Do you want to reboot the system? (required for some installations to complete)" 8 70); then
+  sudo reboot  
+else
+  exit 0
+fi
