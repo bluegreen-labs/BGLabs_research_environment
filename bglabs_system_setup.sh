@@ -122,6 +122,11 @@ TERM=vt100 whiptail --title "BGlabs install tools" --infobox "setting up python 
 # wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-keyring_1.0-1_all.deb
 # sudo dpkg -i cuda-keyring_1.0-1_all.deb
 
+sudo apt install nvidia-cuda-toolkit
+
+# pytorch
+pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu116
+
 #-------- Zotero reference manager --------
 
 TERM=vt100 whiptail --title "BGlabs install tools" --infobox "setting up the Zotero reference manager" 8 80
