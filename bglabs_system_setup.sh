@@ -118,6 +118,10 @@ TERM=vt100 whiptail --title "BGlabs install tools" --infobox "setting up python 
 
 # TODO probably safe to install numpy and scipy from the default repo
 
+# https://forums.developer.nvidia.com/t/notice-cuda-linux-repository-key-rotation/212772
+# wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-keyring_1.0-1_all.deb
+# sudo dpkg -i cuda-keyring_1.0-1_all.deb
+
 #-------- Zotero reference manager --------
 
 TERM=vt100 whiptail --title "BGlabs install tools" --infobox "setting up the Zotero reference manager" 8 80
