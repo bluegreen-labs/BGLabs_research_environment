@@ -54,6 +54,9 @@ TERM=vt100 whiptail --title "BGlabs install tools" --infobox "setting up interne
 # Install general tools for internet sleughting
 sudo apt install wget curl -y >/dev/null 2>&1
 
+# VPN software
+sudo apt install -y network-manager-openconnect network-manager-openconnect-gnome >/dev/null 2>&1
+
 #-------- GDAL and geospatial software --------
 
 TERM=vt100 whiptail --title "BGlabs install tools" --infobox "setting up GDAL" 8 80
@@ -70,12 +73,24 @@ fi
 sudo apt-get update >/dev/null 2>&1
 sudo apt-get install gdal-bin libgdal-dev qgis -y >/dev/null 2>&1
 
+# install spatial packages + GIS
+#sudo add-apt-repository 'deb http://ppa.launchpad.net/ubuntugis/ubuntugis-unstable/ubuntu focal main '
+#sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 314DF160
+#sudo apt update
+#sudo apt install -y libgdal-dev libproj-dev libgeos-dev libudunits2-dev libnode-dev libcairo2-dev libnetcdf-dev qgis
+
 #-------- R & statistical software --------
 
 TERM=vt100 whiptail --title "BGlabs install tools" --infobox "setting up R" 8 80
 
 # Install the most recent version of R
 # from https://cloud.r-project.org/bin/linux/ubuntu/
+
+# install R + RStudio
+#sudo add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/'
+#sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
+#sudo apt update
+#sudo apt install -y r-base r-base-core r-recommended r-base-dev
 
 # install two helper packages we need
 sudo apt install --no-install-recommends software-properties-common\
@@ -96,8 +111,7 @@ sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu \
 sudo apt-get update >/dev/null 2>&1
 
 # Install base R
-sudo apt install --no-install-recommends r-base -y >/dev/null 2>&1
-
+sudo apt install r-base r-base-core r-recommended r-base-dev -y >/dev/null 2>&1
 
 #-------- R & statistical software --------
 
@@ -117,6 +131,14 @@ TERM=vt100 whiptail --title "BGlabs install tools" --infobox "setting up RStudio
 TERM=vt100 whiptail --title "BGlabs install tools" --infobox "setting up python & machine learning tooling" 8 80
 
 # TODO probably safe to install numpy and scipy from the default repo
+# install CUDA
+wget https://developer.download.nvidia.com/compute/cuda/11.1.1/local_installers/cuda-repo-ubuntu2004-11-1-local_11.1.1-455.32.00-1_amd64.deb
+sudo dpkg -i cuda-repo-ubuntu2004-11-1-local_11.1.1-455.32.00-1_amd64.deb
+sudo apt-key add /var/cuda-repo-ubuntu2004-11-1-local/7fa2af80.pub
+sudo apt-get update
+sudo apt-get -y install cuda
+
+
 
 # https://forums.developer.nvidia.com/t/notice-cuda-linux-repository-key-rotation/212772
 # wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-keyring_1.0-1_all.deb
