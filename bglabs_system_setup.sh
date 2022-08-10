@@ -7,25 +7,36 @@
 # software such as R, and low level libraries such as the GDAL
 # geospatial libraries.
 #
-# This setup script should be compatible with all Ubuntu flavoured
-# linux distributions (e.g. Ubuntu >=20.04, XUbuntu, KUbuntu, Mint etc.)
+# This routine works for workstations based on Ubuntu 20.04 or laptops
+# running the Pop OS! Ubuntu 22.04 version. The script runs as admin
+# and can therefore damage your system. It is adviced not to run the
+# script on an already running system. Only use it on a fresh install.
 #
 # Please execute this script with administative rights
 # (i.e. sudo bash bglabs_system_setup.sh)
 #
 # Koen Hufkens (August 2022)
 
-# determine Ubuntu release
-
-#-------- Setup and system specific parameters --------
-release=`lsb_release -cs`
+#-------- Warnings --------
 
 if (TERM=vt100 whiptail --title "BGLab system setup"\
- --yesno "This installs research software on your computer. Do you want to continue" 8 70); then
-  echo "All done"
+ --yesno "This installs research software on your computer. The process is unsupervised and run as superuser. As such the process might break your computer.\n\nThe setup scheme should be run on either a Ubuntu 20.04 workstation, or in case of (hybrid) laptops a more recent Pop OS! 22.04 install. It is adviced not to run the script on a currently operational system.\n\nOnly use this script on a fresh install!! \nDo you want to continue" 20 70); then
+ echo " "
 else
-  exit 0
+ exit 0
 fi
+
+release=`lsb_release -cs`
+
+if [[ ${release} == "jammy" ]]; then
+ if cat /etc/os-release | grep -q "pop"; then
+  whiptail --title "Example Title" --msgbox "Running on Jammy Jellyfish (Ubuntu base 22.04) on Pop OS!" 8 70
+ else
+  whiptail --title "Example Title" --msgbox "Running on Jammy Jellyfish (Ubuntu base 22.04). No Pop OS! is detected, some parts of the script might fail." 8 70
+ fi
+fi
+
+#-------- Setup and system specific parameters --------
 
 # update location info (units, date formats)
 sudo update-locale LC_ALL=en_IE.UTF-8 >/dev/null 2>&1
@@ -44,7 +55,7 @@ sudo apt install libfontconfig1-dev ibharfbuzz-dev libfribidi-dev libsodium-dev 
 # authentication libraries and unit conversions
 sudo apt install libsodium-dev libudunits2-dev -y >/dev/null 2>&1
 
-# mommentuHMM dependencies
+# data wrangling libraries
 sudo apt install protobuf-compiler libprotobuf-dev libjq-dev -y >/dev/null 2>&1
 
 #-------- Internet utilities --------
@@ -86,12 +97,6 @@ TERM=vt100 whiptail --title "BGlabs install tools" --infobox "setting up R" 8 80
 # Install the most recent version of R
 # from https://cloud.r-project.org/bin/linux/ubuntu/
 
-# install R + RStudio
-#sudo add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/'
-#sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
-#sudo apt update
-#sudo apt install -y r-base r-base-core r-recommended r-base-dev
-
 # install two helper packages we need
 sudo apt install --no-install-recommends software-properties-common\
  dirmngr -y >/dev/null 2>&1
@@ -104,7 +109,7 @@ wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc |
 
 # add the R 4.0 repo from CRAN -- adjust 'focal' to 'groovy'
 # or 'bionic' as needed
-sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu \
+sudo add-apt-repository -y "deb https://cloud.r-project.org/bin/linux/ubuntu \
  $(lsb_release -cs)-cran40/" >/dev/null 2>&1
 
 # update repo
@@ -117,37 +122,35 @@ sudo apt install r-base r-base-core r-recommended r-base-dev -y >/dev/null 2>&1
 
 TERM=vt100 whiptail --title "BGlabs install tools" --infobox "setting up RStudio" 8 80
 
-#if [[ ${release} == "focal" ]]; then
-# wget https://download1.rstudio.org/desktop/bionic/amd64/rstudio-2022.07.1-554-amd64.deb  >/dev/null 2>&1
-#else
-# wget https://download1.rstudio.org/desktop/jammy/amd64/rstudio-2022.07.1-554-amd64.deb  >/dev/null 2>&1
-#fi
+if [[ ${release} == "focal" ]]; then
+ wget https://download1.rstudio.org/desktop/bionic/amd64/rstudio-2022.07.1-554-amd64.deb  >/dev/null 2>&1
+else
+ wget https://download1.rstudio.org/desktop/jammy/amd64/rstudio-2022.07.1-554-amd64.deb  >/dev/null 2>&1
+fi
 
-#sudo dpkg -i rstudio-2022.07.1-554-amd64.deb >/dev/null 2>&1
-#rm rstudio-2022.07.1-554-amd64.deb >/dev/null 2>&1
+sudo dpkg -i rstudio-2022.07.1-554-amd64.deb >/dev/null 2>&1
+rm rstudio-2022.07.1-554-amd64.deb >/dev/null 2>&1
 
-#-------- Python ML etc --------
+#-------- ML acceleration --------
 
-TERM=vt100 whiptail --title "BGlabs install tools" --infobox "setting up python & machine learning tooling" 8 80
+if lspci | grep -q "NVIDIA"; then
+ 
+ TERM=vt100 whiptail --title "BGlabs install tools" --infobox "setting up GPU acceleration" 8 80
 
-# TODO probably safe to install numpy and scipy from the default repo
-# install CUDA
-wget https://developer.download.nvidia.com/compute/cuda/11.1.1/local_installers/cuda-repo-ubuntu2004-11-1-local_11.1.1-455.32.00-1_amd64.deb
-sudo dpkg -i cuda-repo-ubuntu2004-11-1-local_11.1.1-455.32.00-1_amd64.deb
-sudo apt-key add /var/cuda-repo-ubuntu2004-11-1-local/7fa2af80.pub
-sudo apt-get update
-sudo apt-get -y install cuda
-
-
-
-# https://forums.developer.nvidia.com/t/notice-cuda-linux-repository-key-rotation/212772
-# wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-keyring_1.0-1_all.deb
-# sudo dpkg -i cuda-keyring_1.0-1_all.deb
-
-sudo apt install nvidia-cuda-toolkit
-
-# pytorch
-pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu116
+ if [[ ${release} == "focal" ]]; then
+  # TODO probably safe to install numpy and scipy from the default repo
+  # install CUDA
+  wget https://developer.download.nvidia.com/compute/cuda/11.1.1/local_installers/cuda-repo-ubuntu2004-11-1- local_11.1.1-455.32.00-1_amd64.deb >/dev/null 2>&1
+  sudo dpkg -i cuda-repo-ubuntu2004-11-1-local_11.1.1-455.32.00-1_amd64.deb >/dev/null 2>&1
+  sudo apt-key add /var/cuda-repo-ubuntu2004-11-1-local/7fa2af80.pub >/dev/null 2>&1
+  sudo apt-get update >/dev/null 2>&1
+  sudo apt-get -y install cuda nvidia-cuda-toolkit >/dev/null 2>&1
+ else
+  # NVIDIA drivers are installed if running a hybrid platform
+  # only CUDA pieces are missing
+  sudo apt-get -y install system76-cuda system76-cudnn >/dev/null 2>&1
+ fi
+fi
 
 #-------- Zotero reference manager --------
 
