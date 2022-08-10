@@ -154,8 +154,20 @@ fi
 
 #-------- Zotero reference manager --------
 
-TERM=vt100 whiptail --title "BGlabs install tools" --infobox "setting up the Zotero reference manager" 8 80
+TERM=vt100 whiptail --title "BGlabs install tools" --infobox "Installing the Zotero reference manager" 8 80
 sleep 4
+
+# download zotero
+wget "https://www.zotero.org/download/client/dl?channel=release&platform=linux-x86_64" -O zotero.tar.gz
+tar -xvf zotero.tar.gz
+mv Zotero_linux-x86_64 /opt/zotero/
+rm zotero.tar.gz
+
+# run launcher icon script
+bash /opt/zotero/set_launcher_icon
+
+# link to the application
+ln -s /opt/zotero/zotero.desktop ~/.local/share/applications/zotero.desktop
 
 #-------- Cleanup --------
 
