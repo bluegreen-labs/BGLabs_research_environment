@@ -147,8 +147,11 @@ if lspci | grep -q "NVIDIA"; then
   sudo apt-get -y install cuda nvidia-cuda-toolkit >/dev/null 2>&1
  else
   # NVIDIA drivers are installed if running a hybrid platform
-  # only CUDA pieces are missing
-  sudo apt-get -y install system76-cuda system76-cudnn >/dev/null 2>&1
+  # only CUDA pieces are missing these are installed together with
+  # Tensorman for dockerized tensorflow runs
+  sudo apt-get -y install ssystem76-cuda-latest system76-cudnn-11.2 >/dev/null 2>&1
+  sudo apt-get -y install nvidia-container-runtime >/dev/null 2>&1
+  sudo apt-get -y install tensorman >/dev/null 2>&1
  fi
 fi
 
