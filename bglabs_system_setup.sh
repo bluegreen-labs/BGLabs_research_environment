@@ -45,6 +45,9 @@ sudo update-locale LC_ALL=en_IE.UTF-8 >/dev/null 2>&1
 
 TERM=vt100 whiptail --title "BGlabs install tools" --infobox "setting up system utilities and libraries" 8 80
 
+# Install tools
+sudo apt install synaptic -y >/dev/null 2>&1
+
 # Install general compilation and system utilities
 sudo apt install python3-pip git -y >/dev/null 2>&1
 sudo apt install cmake gfortran libclang-dev -y >/dev/null 2>&1
