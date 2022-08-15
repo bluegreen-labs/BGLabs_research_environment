@@ -160,20 +160,26 @@ fi
 TERM=vt100 whiptail --title "BGlabs install tools" --infobox "Installing the Zotero reference manager" 8 80
 sleep 4
 
+# find current main user (should be a single user on a fresh install)
+user=(`users`)
+
 # download zotero
 wget "https://www.zotero.org/download/client/dl?channel=release&platform=linux-x86_64" -O zotero.tar.gz
 tar -xvf zotero.tar.gz
 mv Zotero_linux-x86_64 /opt/zotero/
 rm zotero.tar.gz
 
-chown -R ${SUDO_SU} /opt/zotero
-chgrp -R ${SUDO_SU} /opt/zotero
+chown -R ${user[0]} /opt/zotero
+chgrp -R ${user[0]} /opt/zotero
 
 # run launcher icon script
-su ${SUDO_SU} -c "bash /opt/zotero/set_launcher_icon"
+su ${user[0]} -c "bash /opt/zotero/set_launcher_icon"
+
+# set link target
+target="/home/${user[0]}/.local/share/applications/zotero.desktop"
 
 # link to the application
-ln -s /opt/zotero/zotero.desktop /home/${SUDO_SU}/.local/share/applications/zotero.desktop
+su ${user[0]} "ln -s /opt/zotero/zotero.desktop $target"
 
 #-------- Cleanup --------
 
