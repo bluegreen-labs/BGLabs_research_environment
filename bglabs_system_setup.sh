@@ -50,7 +50,7 @@ sudo apt install python3-pip git -y >/dev/null 2>&1
 sudo apt install cmake gfortran libclang-dev -y >/dev/null 2>&1
 
 # R devtools requirements
-sudo apt install libfontconfig1-dev ibharfbuzz-dev libfribidi-dev -y >/dev/null 2>&1
+sudo apt install libfontconfig1-dev libharfbuzz-dev libfribidi-dev -y >/dev/null 2>&1
 
 # authentication libraries and unit conversions
 sudo apt install libsodium-dev libudunits2-dev -y >/dev/null 2>&1
