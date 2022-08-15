@@ -58,6 +58,9 @@ sudo apt install libsodium-dev libudunits2-dev -y >/dev/null 2>&1
 # data wrangling libraries
 sudo apt install protobuf-compiler libprotobuf-dev libjq-dev -y >/dev/null 2>&1
 
+# system profiling
+sudo apt install htop -y >/dev/null 2>&1
+
 #-------- Internet utilities --------
 
 TERM=vt100 whiptail --title "BGlabs install tools" --infobox "setting up internet utilities" 8 80
