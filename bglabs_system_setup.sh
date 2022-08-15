@@ -50,7 +50,7 @@ sudo apt install python3-pip git -y >/dev/null 2>&1
 sudo apt install cmake gfortran libclang-dev -y >/dev/null 2>&1
 
 # R devtools requirements
-sudo apt install libfontconfig1-dev ibharfbuzz-dev libfribidi-dev libsodium-dev -y >/dev/null 2>&1
+sudo apt install libfontconfig1-dev ibharfbuzz-dev libfribidi-dev -y >/dev/null 2>&1
 
 # authentication libraries and unit conversions
 sudo apt install libsodium-dev libudunits2-dev -y >/dev/null 2>&1
@@ -166,11 +166,14 @@ tar -xvf zotero.tar.gz
 mv Zotero_linux-x86_64 /opt/zotero/
 rm zotero.tar.gz
 
+chown -R ${SUDO_SU} /opt/zotero
+chgrp -R ${SUDO_SU} /opt/zotero
+
 # run launcher icon script
-bash /opt/zotero/set_launcher_icon
+su ${SUDO_SU} -c "bash /opt/zotero/set_launcher_icon"
 
 # link to the application
-ln -s /opt/zotero/zotero.desktop ~/.local/share/applications/zotero.desktop
+ln -s /opt/zotero/zotero.desktop /home/${SUDO_SU}/.local/share/applications/zotero.desktop
 
 #-------- Cleanup --------
 
