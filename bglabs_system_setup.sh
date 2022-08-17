@@ -123,6 +123,7 @@ sudo apt-get update >/dev/null 2>&1
 
 # Install base R
 sudo apt install r-base r-base-core r-recommended r-base-dev -y >/dev/null 2>&1
+sudo apt install r-cran-devtools r-cran-remotes -y >/dev/null 2>&1
 
 #-------- R & statistical software --------
 
