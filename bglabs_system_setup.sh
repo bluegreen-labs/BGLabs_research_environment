@@ -64,6 +64,9 @@ sudo apt install protobuf-compiler libprotobuf-dev libjq-dev -y >/dev/null 2>&1
 # system profiling, login management and other fun tools
 sudo apt install tmux htop qpdf -y >/dev/null 2>&1
 
+# tex for R documentation
+sudo apt-get install texlive-latex-base -y >/dev/null 2>&1
+
 #-------- Internet utilities --------
 
 TERM=vt100 whiptail --title "BGlabs install tools" --infobox "setting up internet utilities" 8 80
