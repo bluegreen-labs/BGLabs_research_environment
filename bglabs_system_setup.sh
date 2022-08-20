@@ -65,7 +65,7 @@ sudo apt install protobuf-compiler libprotobuf-dev libjq-dev -y >/dev/null 2>&1
 sudo apt install tmux htop qpdf -y >/dev/null 2>&1
 
 # tex for R documentation
-sudo apt-get install texlive-latex-base -y >/dev/null 2>&1
+sudo apt-get install texlive-latex-base texlive-fonts-recommended texlive-fonts-extra -y >/dev/null 2>&1
 
 #-------- Internet utilities --------
 
