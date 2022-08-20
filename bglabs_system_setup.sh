@@ -62,7 +62,7 @@ sudo apt install libsodium-dev libudunits2-dev -y >/dev/null 2>&1
 sudo apt install protobuf-compiler libprotobuf-dev libjq-dev -y >/dev/null 2>&1
 
 # system profiling, login management and other fun tools
-sudo apt install tmux htop -y >/dev/null 2>&1
+sudo apt install tmux htop qpdf -y >/dev/null 2>&1
 
 #-------- Internet utilities --------
 
