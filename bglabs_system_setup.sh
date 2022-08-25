@@ -7,7 +7,7 @@
 # software such as R, and low level libraries such as the GDAL
 # geospatial libraries.
 #
-# This routine works for workstations based on Ubuntu 20.04 or laptops
+# This routine works for workstations based on Ubuntu 22.04 or laptops
 # running the Pop OS! Ubuntu 22.04 version. The script runs as admin
 # and can therefore damage your system. It is adviced not to run the
 # script on an already running system. Only use it on a fresh install.
@@ -20,15 +20,16 @@
 #-------- Warnings --------
 
 if (TERM=vt100 whiptail --title "BGLab system setup"\
- --yesno "This installs research software on your computer. The process is unsupervised and run as superuser. As such the process might break your computer.\n\nThe setup scheme should be run on either a Ubuntu 20.04 workstation, or in case of (hybrid) laptops a more recent Pop OS! 22.04 install. It is adviced not to run the script on a currently operational system.\n\nOnly use this script on a fresh install!! \nDo you want to continue" 20 70); then
+ --yesno "This installs research software on your computer. The process is unsupervised and run as superuser. As such the process might break your computer.\n\nThe setup scheme should be run on either a Ubuntu 22.04 workstation, or in case of (hybrid) laptops a more recent Pop OS! 22.04 install. It is adviced not to run the script on a currently operational system.\n\nOnly use this script on a fresh install!! \nDo you want to continue" 20 70); then
  echo " "
 else
  exit 0
 fi
 
 release=`lsb_release -cs`
+id=`lsb_release -is`
 
-if [[ ${release} == "jammy" ]]; then
+if [[ ${id} == "Pop" ]]; then
  if cat /etc/os-release | grep -q "pop"; then
   whiptail --title "Example Title" --msgbox "Running on Jammy Jellyfish (Ubuntu base 22.04) on Pop OS!" 8 70
  else
@@ -45,8 +46,8 @@ sudo update-locale LC_ALL=en_IE.UTF-8 >/dev/null 2>&1
 
 TERM=vt100 whiptail --title "BGlabs install tools" --infobox "setting up system utilities and libraries" 8 80
 
-# Install tools
-sudo apt install synaptic -y >/dev/null 2>&1
+# Install tools / version control
+sudo apt install git synaptic -y >/dev/null 2>&1
 
 # Install general compilation and system utilities
 sudo apt install python3-pip git -y >/dev/null 2>&1
@@ -64,7 +65,7 @@ sudo apt install protobuf-compiler libprotobuf-dev libjq-dev -y >/dev/null 2>&1
 # system profiling, login management and other fun tools
 sudo apt install tmux htop qpdf -y >/dev/null 2>&1
 
-# tex for R documentation
+# tex for R documentation on 4.2
 sudo apt-get install texlive-latex-base texlive-fonts-recommended texlive-fonts-extra -y >/dev/null 2>&1
 
 #-------- Internet utilities --------
@@ -81,22 +82,8 @@ sudo apt install -y network-manager-openconnect network-manager-openconnect-gnom
 
 TERM=vt100 whiptail --title "BGlabs install tools" --infobox "setting up GDAL" 8 80
 
-# Install GDAL and GDAL development libraries
-# the latest versions can be fetched from the ppa
-# this will not be required if running Ubuntu 22.04
-# as this includes a recent version of GDAL etc.
-# Test for the release date
-if [[ ${release} == "focal" ]]; then
-  sudo add-apt-repository ppa:ubuntugis/ppa -y >/dev/null 2>&1
-fi
-
 sudo apt-get update >/dev/null 2>&1
 sudo apt-get install gdal-bin libgdal-dev qgis -y >/dev/null 2>&1
-
-# install spatial packages + GIS
-#sudo add-apt-repository 'deb http://ppa.launchpad.net/ubuntugis/ubuntugis-unstable/ubuntu focal main '
-#sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 314DF160
-#sudo apt update
 #sudo apt install -y libgdal-dev libproj-dev libgeos-dev libudunits2-dev libnode-dev libcairo2-dev libnetcdf-dev qgis
 
 #-------- R & statistical software --------
@@ -132,12 +119,7 @@ sudo apt install r-cran-devtools r-cran-remotes -y >/dev/null 2>&1
 
 TERM=vt100 whiptail --title "BGlabs install tools" --infobox "setting up RStudio" 8 80
 
-if [[ ${release} == "focal" ]]; then
- wget https://download1.rstudio.org/desktop/bionic/amd64/rstudio-2022.07.1-554-amd64.deb  >/dev/null 2>&1
-else
- wget https://download1.rstudio.org/desktop/jammy/amd64/rstudio-2022.07.1-554-amd64.deb  >/dev/null 2>&1
-fi
-
+wget https://download1.rstudio.org/desktop/jammy/amd64/rstudio-2022.07.1-554-amd64.deb  >/dev/null 2>&1
 sudo dpkg -i rstudio-2022.07.1-554-amd64.deb >/dev/null 2>&1
 rm rstudio-2022.07.1-554-amd64.deb >/dev/null 2>&1
 
@@ -147,7 +129,7 @@ if lspci | grep -q "NVIDIA"; then
  
  TERM=vt100 whiptail --title "BGlabs install tools" --infobox "setting up GPU acceleration" 8 80
 
- if [[ ${release} == "focal" ]]; then
+ if [[ ${id} != "Pop" ]]; then
   # TODO probably safe to install numpy and scipy from the default repo
   # install CUDA
   wget https://developer.download.nvidia.com/compute/cuda/11.1.1/local_installers/cuda-repo-ubuntu2004-11-1- local_11.1.1-455.32.00-1_amd64.deb >/dev/null 2>&1
