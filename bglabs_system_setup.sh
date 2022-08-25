@@ -33,7 +33,7 @@ if [[ ${id} == "Pop" ]]; then
  if cat /etc/os-release | grep -q "pop"; then
   whiptail --title "Example Title" --msgbox "Running on Jammy Jellyfish (Ubuntu base 22.04) on Pop OS!" 8 70
  else
-  whiptail --title "Example Title" --msgbox "Running on Jammy Jellyfish (Ubuntu base 22.04). No Pop OS! is detected, some parts of the script might fail." 8 70
+  whiptail --title "Example Title" --msgbox "Running on Jammy Jellyfish (Ubuntu base 22.04). No Pop OS! is detected." 8 70
  fi
 fi
 
@@ -41,6 +41,9 @@ fi
 
 # update location info (units, date formats)
 sudo update-locale LC_ALL=en_IE.UTF-8 >/dev/null 2>&1
+
+# enable local firewall
+sudo ufw enable
 
 #-------- System utilities --------
 
@@ -66,7 +69,10 @@ sudo apt install protobuf-compiler libprotobuf-dev libjq-dev -y >/dev/null 2>&1
 sudo apt install tmux htop qpdf -y >/dev/null 2>&1
 
 # tex for R documentation on 4.2
-sudo apt-get install texlive-latex-base texlive-fonts-recommended texlive-fonts-extra -y >/dev/null 2>&1
+sudo apt install texlive-latex-base texlive-fonts-recommended texlive-fonts-extra -y >/dev/null 2>&1
+
+# install SSH utils (file system connection)
+sudo apt install sshfs
 
 #-------- Internet utilities --------
 
@@ -115,13 +121,12 @@ sudo apt-get update >/dev/null 2>&1
 sudo apt install r-base r-base-core r-recommended r-base-dev -y >/dev/null 2>&1
 sudo apt install r-cran-devtools r-cran-remotes -y >/dev/null 2>&1
 
-#-------- R & statistical software --------
-
-TERM=vt100 whiptail --title "BGlabs install tools" --infobox "setting up RStudio" 8 80
-
+# rstudio
 wget https://download1.rstudio.org/desktop/jammy/amd64/rstudio-2022.07.1-554-amd64.deb  >/dev/null 2>&1
 sudo dpkg -i rstudio-2022.07.1-554-amd64.deb >/dev/null 2>&1
 rm rstudio-2022.07.1-554-amd64.deb >/dev/null 2>&1
+
+sudo apt-get install gdebi-core 2>&1
 
 #-------- ML acceleration --------
 
@@ -171,7 +176,7 @@ su ${user[0]} -c "bash /opt/zotero/set_launcher_icon"
 target="/home/${user[0]}/.local/share/applications/zotero.desktop"
 
 # link to the application
-su ${user[0]} "ln -s /opt/zotero/zotero.desktop $target"
+su ${user[0]} ln -s /opt/zotero/zotero.desktop $target
 
 #-------- Cleanup --------
 
