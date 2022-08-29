@@ -39,6 +39,9 @@ fi
 
 #-------- Setup and system specific parameters --------
 
+# enable firewall!!!
+sudo ufw enable
+
 # update location info (units, date formats)
 sudo update-locale LC_ALL=en_IE.UTF-8 >/dev/null 2>&1
 
