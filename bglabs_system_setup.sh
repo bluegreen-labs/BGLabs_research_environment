@@ -60,7 +60,7 @@ sudo apt install cmake gfortran libclang-dev -y >/dev/null 2>&1
 sudo apt install libfontconfig1-dev libharfbuzz-dev libfribidi-dev -y >/dev/null 2>&1
 
 # authentication libraries and unit conversions
-sudo apt install libsodium-dev libudunits2-dev -y >/dev/null 2>&1
+sudo apt install cargo libsodium-dev libudunits2-dev -y >/dev/null 2>&1
 
 # data wrangling libraries
 sudo apt install protobuf-compiler libprotobuf-dev libjq-dev -y >/dev/null 2>&1
