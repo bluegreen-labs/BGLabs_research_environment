@@ -8,7 +8,7 @@ To run the script use in a terminal:
 sudo bash bglabs_system_setup.sh
 ```
 
-## Installed comnponents
+## Installed components
 
 - NVIDIA drivers and CUDA/CUDNN GPU acceleration for machine learning (if hardware is available)
 - geospatial libraries GDAL
