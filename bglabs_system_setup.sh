@@ -45,15 +45,15 @@ sudo ufw enable
 # update location info (units, date formats)
 sudo update-locale LC_ALL=en_IE.UTF-8 >/dev/null 2>&1
 
-# enable local firewall
-sudo ufw enable
-
 #-------- System utilities --------
 
 TERM=vt100 whiptail --title "BGlabs install tools" --infobox "setting up system utilities and libraries" 8 80
 
 # Install tools / version control
 sudo apt install git synaptic -y >/dev/null 2>&1
+
+# 2FA
+sudo apt install libfido2-1 libfido2-dev libfido2-doc fido2-tools -y >/dev/null 2>&1
 
 # Install general compilation and system utilities
 sudo apt install python3-pip git -y >/dev/null 2>&1
@@ -75,7 +75,7 @@ sudo apt install tmux htop qpdf -y >/dev/null 2>&1
 sudo apt install texlive-latex-base texlive-fonts-recommended texlive-fonts-extra -y >/dev/null 2>&1
 
 # install SSH utils (file system connection)
-sudo apt install sshfs
+sudo apt install sshfs -y >/dev/null 2>&1
 
 #-------- Internet utilities --------
 
@@ -129,7 +129,7 @@ wget https://download1.rstudio.org/desktop/jammy/amd64/rstudio-2022.07.1-554-amd
 sudo dpkg -i rstudio-2022.07.1-554-amd64.deb >/dev/null 2>&1
 rm rstudio-2022.07.1-554-amd64.deb >/dev/null 2>&1
 
-sudo apt-get install gdebi-core 2>&1
+sudo apt-get install gdebi-core -y >/dev/null 2>&1
 
 #-------- ML acceleration --------
 
