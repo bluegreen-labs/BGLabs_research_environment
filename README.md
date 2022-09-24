@@ -1,6 +1,6 @@
 # BlueGreen Labs research environment
 
-Setup script for the BlueGreen Labs research environment. The script assumes you are running either Ubuntu 20.04 (in a workstation setting) or Pop OS! 22.04 on (hybrid NVIDIA based) laptops. The script is best run right after a clean install to ensure that it will run smoothly without any conflicts. All output is surpressed and failed installs are currently not logged.
+Setup script for the BlueGreen Labs research environment. The script assumes you are running either Ubuntu 22.04 (in a workstation setting) or Pop OS! 22.04 on (hybrid NVIDIA based) laptops. The script is best run right after a clean install to ensure that it will run smoothly without any conflicts. All output is surpressed and failed installs are currently not logged.
 
 To run the script use in a terminal:
 
