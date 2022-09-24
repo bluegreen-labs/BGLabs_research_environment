@@ -30,11 +30,9 @@ release=`lsb_release -cs`
 id=`lsb_release -is`
 
 if [[ ${id} == "Pop" ]]; then
- if cat /etc/os-release | grep -q "pop"; then
   whiptail --title "Example Title" --msgbox "Running on Jammy Jellyfish (Ubuntu base 22.04) on Pop OS!" 8 70
- else
+else
   whiptail --title "Example Title" --msgbox "Running on Jammy Jellyfish (Ubuntu base 22.04). No Pop OS! is detected." 8 70
- fi
 fi
 
 #-------- Setup and system specific parameters --------
