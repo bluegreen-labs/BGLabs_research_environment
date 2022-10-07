@@ -55,7 +55,7 @@ sudo apt install libfido2-1 libfido2-dev libfido2-doc fido2-tools -y >/dev/null 
 
 # Install general compilation and system utilities
 sudo apt install python3-pip git -y >/dev/null 2>&1
-sudo apt install cmake gfortran libclang-dev -y >/dev/null 2>&1
+sudo apt install cmake gfortran libclang-dev libnode-dev -y >/dev/null 2>&1
 
 # R devtools requirements
 sudo apt install libfontconfig1-dev libharfbuzz-dev libfribidi-dev -y >/dev/null 2>&1
