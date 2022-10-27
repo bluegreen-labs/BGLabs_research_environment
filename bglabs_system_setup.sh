@@ -138,10 +138,11 @@ if lspci | grep -q "NVIDIA"; then
  if [[ ${id} != "Pop" ]]; then
   # TODO probably safe to install numpy and scipy from the default repo
   # install CUDA
-  wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.0-1_all.deb >/dev/null 2>&1
-  sudo dpkg -i cuda-keyring_1.0-1_all.deb >/dev/null 2>&1
-  sudo apt-get update >/dev/null 2>&1
-  sudo apt-get -y install cuda >/dev/null 2>&1
+  echo "Nothing to do, please install NVIDIA drivers manually!"
+  #wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.0-1_all.deb >/dev/null 2>&1
+  #sudo dpkg -i cuda-keyring_1.0-1_all.deb >/dev/null 2>&1
+  #sudo apt-get update >/dev/null 2>&1
+  #sudo apt-get -y install cuda >/dev/null 2>&1
  else
   # NVIDIA drivers are installed if running a hybrid platform
   # only CUDA pieces are missing these are installed together with
