@@ -1,0 +1,17 @@
+name: mlenv
+channels:
+  - nvidia
+  - conda-forge
+  - pytorch-nightly
+dependencies:
+  - python=3.11
+  - conda
+  - setuptools
+  - pip
+  - wheel
+  - conda-content-trust
+  - conda-libmamba-solver
+  - pytorch
+  - torchaudio
+  - torchvision
+  - pytorch-cuda=12.1
