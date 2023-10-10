@@ -43,12 +43,12 @@ bash Miniconda3-latest-Linux-x86_64.sh
 ```
 ### Creating an environment
 
-To recreate an environment ready for machine learning using pytorch use the [environment.yml](https://github.com/geco-bern/system_administration/blob/main/python/environment.yml) file provided.
+To recreate an environment ready for machine learning using pytorch use the [environment.yml](https://github.com//bluegreen-labs/BGLabs_research_environment/blob/main/python/environment.yml) file provided.
 
 You can then call the following command to configure an environment called `mlenv`.
 
 ```
-conda env create -f environment.yml
+conda env create -f environment_ubuntu.yml
 ```
 
 To activate this environment call:
@@ -58,7 +58,7 @@ To activate this environment call:
 conda activate mlenv
 ```
 
-Use the CUDA 12 environment file, [environment_cuda12.yml](https://github.com/geco-bern/system_administration/blob/main/python/environment_cuda12.yml) when using the latest CUDA release (on Pop OS!).
+Use the CUDA 12 environment file, [environment_cuda12.yml](https://github.com/bluegreen-labs/BGLabs_research_environment/blob/main/python/environment_cuda12.yml) when using the latest CUDA release (on Pop OS!).
 
 ### Install torch manually in any environment
 
