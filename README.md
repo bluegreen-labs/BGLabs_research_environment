@@ -43,7 +43,7 @@ bash Miniconda3-latest-Linux-x86_64.sh
 ```
 ### Creating an environment
 
-To recreate an environment ready for machine learning using pytorch use the [environment.yml](https://github.com//bluegreen-labs/BGLabs_research_environment/blob/main/python/environment.yml) file provided.
+To recreate an environment ready for machine learning using pytorch use the [environment_ubuntu.yml](https://github.com//bluegreen-labs/BGLabs_research_environment/blob/main/python/environment_ubuntu.yml) file provided.
 
 You can then call the following command to configure an environment called `mlenv`.
 
