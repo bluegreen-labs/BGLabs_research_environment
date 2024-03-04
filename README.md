@@ -27,8 +27,6 @@ This script can be used safely on existing systems.
 
 ## Python and CUDA
 
-Both workstation 1 and 2 run the default Ubuntu python versions. For reproducibility it is advised to work with virtual environments and install conda.
-
 In your home directory [download miniconda for Linux](https://docs.conda.io/en/latest/miniconda.html#linux-installers), and check the downloaded script using checksums.
 
 ```
